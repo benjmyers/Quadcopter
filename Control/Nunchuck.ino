@@ -23,7 +23,7 @@ void readNunchuck(){
   printButton(zButton,3);
   int cButton = nunchuckGetValue(wii_btnC); 
   printButton(cButton,4);
-  Serial.println(); 
+  //Serial.println(); 
 }
 
 //------------------------------------------------------------
