@@ -2,7 +2,7 @@
 int offsetX, offsetY, offsetZ;
 
 void readNunchuck(){
-
+  
   nunchuckRead();
   delay(6);
   nunchuckRequest();
@@ -14,15 +14,15 @@ void readNunchuck(){
     offsetY = 127 - nunchuckGetValue(wii_accelY);
   }
   int xAccel = nunchuckGetValue(wii_accelX);
-  printAccel(xAccel,offsetX);
+  printAccel(xAccel,offsetX,0);
   int yAccel = nunchuckGetValue(wii_accelY);
-  printAccel(yAccel,offsetY);
+  printAccel(yAccel,offsetY,1);
   int zAccel = nunchuckGetValue(wii_accelZ);
-  printAccel(zAccel,offsetZ);
+  printAccel(zAccel,offsetZ,2);
   int zButton = nunchuckGetValue(wii_btnZ);
-  printButton(zButton);
+  printButton(zButton,3);
   int cButton = nunchuckGetValue(wii_btnC); 
-  printButton(cButton);
+  printButton(cButton,4);
   Serial.println(); 
 }
 
@@ -30,12 +30,22 @@ void readNunchuck(){
 //------------------ Printing nunchuck data ------------------
 //------------------------------------------------------------
 
-void printAccel(int value, int offset)
+void printAccel(int value, int offset, int index)
 {
-  Serial.print(adjReading(value, 127-50, 127+50, offset));
-  Serial.print(", ");
-}
+  nunchuckData[index] = adjReading(value, 127-50, 127+50, offset);
 
+  /*Serial.print(adjReading(value, 127-50, 127+50, offset));
+  Serial.print(", ");*/
+}
+void printButton(int value, int index)
+{
+  if ( value != 0){
+    value = 127;
+  }
+  nunchuckData[index] = value;
+/*  Serial.print(value,DEC);
+  Serial.print(", ");*/
+}
 void printAnalogButton(int pinNo){
   int value = digitalRead(pinNo);
   delay(10);
@@ -54,14 +64,7 @@ void printJoy(int value)
   Serial.print(",");
 }
 
-void printButton(int value)
-{
-  if ( value != 0){
-    value = 127;
-  }
-  Serial.print(value,DEC);
-  Serial.print(", ");
-}
+
 
 int adjReading( int value, int min, int max, int offset)
 {
