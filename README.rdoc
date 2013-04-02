@@ -1,2 +1,16 @@
 == Project
 Quadcopter controlled with Arduino for Electronics II.
+
+== Organization
+
+- Control
+Transmits accelerometer data from a Wii Nunchuck via an xBee radio. This data is used to control movement of the quadcopter.
+
+- Nunchuck
+Contains headerfiles needed for the Nunchuck.
+
+- Quadcopter
+Code for controlling the quadcopter. Including reading in data via xBee, reading on board data from accelerometer and gyroscope, and controlling the motors.
+
+== Status
+In early stages of development.
