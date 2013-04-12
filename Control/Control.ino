@@ -13,8 +13,7 @@ void setup()
   // ----- Set up Nunchuck -----
   nunchuckInit(); //send the init handshake
   nunchuckRead(); //ignore first tiem
-  // ----- Set up Radio -----
-  radioConfigured = configureRadio();
+
   
   delay(50);
 }

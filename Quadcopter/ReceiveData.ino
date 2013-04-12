@@ -6,11 +6,10 @@
 
 void getData(){
   String data;
-  while (Serial.available() ) {
+  while (Serial.available() ) 
     data += Serial.read(); // Read in data
-    
-    // Parse Data
-    
-  }
+   
+  // Parse Data
+  
 }  
     
