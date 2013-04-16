@@ -3,8 +3,8 @@
  Reply with whatever you receive over the serial port
  From Arduino Cookbook, V2, Margolis
  */
-String st, msgChar, msgInt, xAccel, yAccel, zAccel, zButton, cButton,newline 
-
+String st, msgChar, msgInt, xAccel, yAccel, zAccel, zButton, cButton,newline; 
+int xVal, yVal, zVal, zBval, cBval;
 void getData(){
   if(st.indexOf("\n")>=0)
   {
@@ -18,7 +18,7 @@ void getData(){
     
 }  
 
-void loop(){
+void stringLoop(){
   if(Serial.available())
   {
     st = String("");
@@ -27,44 +27,53 @@ void loop(){
       st = st + char(Serial.read());
     }
     
-    getData()
+   getData();
    if(newline.indexOf(" ")>0)
     {
       xAccel = newline.substring(0,(newline.indexOf(" ")));
       newline = newline.substring(newline.indexOf(" ")+1);
-      xAccel = (xAccel.toInt());
+      xVal = (xAccel.toInt());
     }
     if(newline.indexOf(" ")>0)
     {
      yAccel = newline.substring(0,(newline.indexOf(" ")));
      newline = newline.substring(newline.indexOf(" ")+1);
-     yAccel = (yAccel.toInt());
+     yVal = (yAccel.toInt());
     }
    
    if(newline.indexOf(" ") > 0)
    {
      zAccel = newline.substring(0,(newline.indexOf(" ")));
      newline = newline.substring(newline.indexOf(" ")+1);
-     zAccel = (zAccel.toInt());
+     zVal = (zAccel.toInt());
    }
    
    if(newline.indexOf(" ") > 0)
    {
      zButton = newline.substring(0,(newline.indexOf(" ")));
      newline= newline.substring(newline.indexOf(" ")+1);
-     zButton = (zButton.toInt())
+     zBval = (zButton.toInt());
    }
    
    if(newline.indexOf(" ")>0)
    {
      cButton = newline.substring(0, (newline.indexOf(" ")));
      newline=newline.substring(newline.indexOf(" ")+1);
-     cButton = (cButton.toInt())
+     cBval = (cButton.toInt());
      
    }
   }
-   Serial.print("X Accel= " + xAccel + "Y Accel= " + yAccel+ "Z Accel= " +zAccel);
-   Serial.println("ZButton= " + zButton + "CButton= " + cButton);
+   Serial.print("X Accel= ");
+   Serial.print(xVal);
+   Serial.print(" Y Accel= ");
+   Serial.print(yVal);
+   Serial.print(" Z Accel= ");
+   Serial.print(zVal);
+   Serial.print(" ZButton= ");
+   Serial.print(zBval);
+   Serial.print(" CButton= ");
+   Serial.println(cBval);
+  
 
 }
   
