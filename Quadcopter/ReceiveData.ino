@@ -5,40 +5,30 @@
  */
 String st, msgChar, msgInt, xAccel, yAccel, zAccel, zButton, cButton,newline; 
 int xVal, yVal, zVal, zBval, cBval;
-void getData(){
-  if(st.indexOf("\n")>=0)
-  {
-    newline=st.substring(0,(st.indexOf("\n")));
-    
-  }
-  
-      
-   
-  // Parse Data
-    
-}  
 
-void stringLoop(){
+/* Parses data from Xbee (Nunchuck values) */
+void parseXbeeData(){
   if(Serial.available())
   {
-    st = String("");
-    while(Serial.available())
+    newline = String("");
+    while(Serial.read() != '\n')
     {
-      st = st + char(Serial.read());
+      newline = newline + char(Serial.read());
     }
     
-   getData();
    if(newline.indexOf(" ")>0)
     {
       xAccel = newline.substring(0,(newline.indexOf(" ")));
       newline = newline.substring(newline.indexOf(" ")+1);
       xVal = (xAccel.toInt());
+      nunchuckData[0] = xVal;
     }
     if(newline.indexOf(" ")>0)
     {
      yAccel = newline.substring(0,(newline.indexOf(" ")));
      newline = newline.substring(newline.indexOf(" ")+1);
      yVal = (yAccel.toInt());
+     nunchuckData[1] = yVal;
     }
    
    if(newline.indexOf(" ") > 0)
@@ -46,6 +36,7 @@ void stringLoop(){
      zAccel = newline.substring(0,(newline.indexOf(" ")));
      newline = newline.substring(newline.indexOf(" ")+1);
      zVal = (zAccel.toInt());
+     nunchuckData[2] = zVal;
    }
    
    if(newline.indexOf(" ") > 0)
@@ -53,6 +44,7 @@ void stringLoop(){
      zButton = newline.substring(0,(newline.indexOf(" ")));
      newline= newline.substring(newline.indexOf(" ")+1);
      zBval = (zButton.toInt());
+     nunchuckData[3] = zBval;
    }
    
    if(newline.indexOf(" ")>0)
@@ -60,6 +52,7 @@ void stringLoop(){
      cButton = newline.substring(0, (newline.indexOf(" ")));
      newline=newline.substring(newline.indexOf(" ")+1);
      cBval = (cButton.toInt());
+     nunchuckData[4] = cBval;
      
    }
   }
