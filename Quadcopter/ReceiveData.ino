@@ -1,73 +1,68 @@
-/*
-  XBeeEcho
- Reply with whatever you receive over the serial port
- From Arduino Cookbook, V2, Margolis
- */
+
+
+// Variables for input from xBee
 String st, msgChar, msgInt, xAccel, yAccel, zAccel, zButton, cButton,newline; 
+// Variables for nunchuck values
 int xVal, yVal, zVal, zBval, cBval;
+
+char inData[10];
+byte index = 0;
+
+
+/* Get acceleration and gyro */
+void getMotion(){
+     // read raw accel/gyro measurements from device
+    accelgyro.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
+}
 
 /* Parses data from Xbee (Nunchuck values) */
 void parseXbeeData(){
-  if(Serial.available())
-  {
-    newline = String("");
-    while(Serial.read() != '\n')
-    {
-      newline = newline + char(Serial.read());
-    }
-    
-   if(newline.indexOf(" ")>0)
-    {
-      xAccel = newline.substring(0,(newline.indexOf(" ")));
-      newline = newline.substring(newline.indexOf(" ")+1);
-      xVal = (xAccel.toInt());
-      nunchuckData[0] = xVal;
-    }
-    if(newline.indexOf(" ")>0)
-    {
-     yAccel = newline.substring(0,(newline.indexOf(" ")));
-     newline = newline.substring(newline.indexOf(" ")+1);
-     yVal = (yAccel.toInt());
-     nunchuckData[1] = yVal;
-    }
-   
-   if(newline.indexOf(" ") > 0)
-   {
-     zAccel = newline.substring(0,(newline.indexOf(" ")));
-     newline = newline.substring(newline.indexOf(" ")+1);
-     zVal = (zAccel.toInt());
-     nunchuckData[2] = zVal;
-   }
-   
-   if(newline.indexOf(" ") > 0)
-   {
-     zButton = newline.substring(0,(newline.indexOf(" ")));
-     newline= newline.substring(newline.indexOf(" ")+1);
-     zBval = (zButton.toInt());
-     nunchuckData[3] = zBval;
-   }
-   
-   if(newline.indexOf(" ")>0)
-   {
-     cButton = newline.substring(0, (newline.indexOf(" ")));
-     newline=newline.substring(newline.indexOf(" ")+1);
-     cBval = (cButton.toInt());
-     nunchuckData[4] = cBval;
-     
-   }
-  }
-   Serial.print("X Accel= ");
-   Serial.print(xVal);
-   Serial.print(" Y Accel= ");
-   Serial.print(yVal);
-   Serial.print(" Z Accel= ");
-   Serial.print(zVal);
-   Serial.print(" ZButton= ");
-   Serial.print(zBval);
-   Serial.print(" CButton= ");
-   Serial.println(cBval);
-  
+  int varCt = 0;
+  st = "";
+  while(Serial.available() > 0){
 
+      char aChar = Serial.read();
+      if(aChar == '\n'){ // end of the input line
+         index = 0;
+         varCt = 0;
+         inData[index] = ':';
+      }
+      
+      else if(aChar == ' '){  // end of a int
+         for (int i=0;i<20;i++){
+            Serial.print(inData[i]); 
+         }
+         Serial.println('\n');
+        // parse(varCt);
+         varCt++;
+      }
+      else{
+         inData[index] = aChar;
+         index++;
+         inData[index] = ':'; // Keep the string NULL terminated
+      }
+   }
+}
+void parse(int varCt) {
+  int index = 0;
+  String num = "";
+  while(inData[index] != ':'){
+      num = num + inData[index];
+      
+  }
+  nunchuckData[varCt] = num.toInt();
+  // 2 X 16
+  lcd.setCursor(0,0);
+  lcd.print("x "+nunchuckData[0]);
+  lcd.setCursor(5,0);
+  lcd.print("y "+nunchuckData[1]);
+  lcd.setCursor(10,0);
+  lcd.print("z "+nunchuckData[2]);
+  lcd.setCursor(0,1);
+  lcd.print("zb "+nunchuckData[3]);
+  lcd.setCursor(5,1);
+  lcd.print("cb "+nunchuckData[4]);
+  
 }
   
       
