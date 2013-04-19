@@ -21,7 +21,7 @@ void parseXbeeData(){
   st = "";
   while(Serial.available() > 0){
 
-      char aChar = Serial.read();
+      char aChar = (char)Serial.read();
       if(aChar == '\n'){ // end of the input line
          index = 0;
          varCt = 0;
