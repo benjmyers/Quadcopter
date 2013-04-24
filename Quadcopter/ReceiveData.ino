@@ -48,6 +48,7 @@ void parseXbeeData(){
             lcd.setCursor(0,0);
             lcd.print("x");
             lcd.print(xAccel);
+            
           }
           if(yPlace.indexOf(" ") > 0){
             yAccel = st.substring(0, (st.indexOf(" ")));
@@ -55,13 +56,15 @@ void parseXbeeData(){
             lcd.setCursor(5,0);
             lcd.print("y");
             lcd.print(yAccel);
+            
           }
           if(zPlace.indexOf(" ") > 0){
             zAccel = st.substring(0, (st.indexOf(" ")));
             zbPlace = zPlace.substring((zPlace.indexOf(" "))+1);
-            lcd.setCursor(10,0);
+           lcd.setCursor(10,0);
             lcd.print("z");
             lcd.print(zAccel);
+            
           }
           if(zbPlace.indexOf(" ") > 0){
             zButton = st.substring(0, (st.indexOf(" ")));
@@ -69,15 +72,20 @@ void parseXbeeData(){
             lcd.setCursor(0,1);
             lcd.print("zb");
             lcd.print(zButton);
+            
           }
          if(cPlace.indexOf(" ") > 0){
            cButton = st.substring(0, (st.indexOf(" ")));
            st = cPlace.substring((cPlace.indexOf(" ")) +1);
-            lcd.setCursor(6,1);
+            lcd.setCursor(7,1);
             lcd.print("cb");
             lcd.print(cButton);
+            
          
-      }Serial.println("parsed");}
+      }Serial.println("parsed");
+       delay(1000);
+       lcd.clear();
+       }
       
       
       

@@ -28,7 +28,7 @@ int nunchuckData[5];
 void setup()
 {
   lcd.begin(numCols, numRows);
- // lcd.autoscroll();
+  //lcd.scrollDisplayLeft();
   Serial.begin(9600);     // 9600 for xBee
   
  // accelgyro.initialize(); // Initialize gyro/accel
