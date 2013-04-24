@@ -5,14 +5,14 @@
 
 // I2Cdev and MPU6050 must be installed as libraries, or else the .cpp/.h files
 // for both classes must be in the include path of your project
-#include "I2Cdev.h"
-#include "MPU6050.h"
+//#include "I2Cdev.h"
+//#include "MPU6050.h"
 
 // class default I2C address is 0x68
 // specific I2C addresses may be passed as a parameter here
 // AD0 low = 0x68 (default for InvenSense evaluation board)
 // AD0 high = 0x69
-MPU6050 accelgyro;
+//MPU6050 accelgyro;
 
 int16_t ax, ay, az;
 int16_t gx, gy, gz;
@@ -28,6 +28,7 @@ int nunchuckData[5];
 void setup()
 {
   lcd.begin(numCols, numRows);
+ // lcd.autoscroll();
   Serial.begin(9600);     // 9600 for xBee
   
  // accelgyro.initialize(); // Initialize gyro/accel
