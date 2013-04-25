@@ -5,7 +5,7 @@ String st, msgChar, msgInt, xAccel, yAccel, zAccel, zButton, cButton,newline;
 // Variables for nunchuck values
 int xVal, yVal, zVal, zBval, cBval;
 
-char inData[10];
+char inData[40];
 byte index = 0;
 
 
@@ -13,6 +13,7 @@ byte index = 0;
 void getMotion(){
      // read raw accel/gyro measurements from device
     accelgyro.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
+    Serial.println(ax);
 }
 
 /* Parses data from Xbee (Nunchuck values) */
@@ -26,13 +27,14 @@ void parseXbeeData(){
          index = 0;
          varCt = 0;
          inData[index] = ':';
-      }
-      
-      else if(aChar == ' '){  // end of a int
-         for (int i=0;i<20;i++){
+         for (int i=0;i<40;i++){
             Serial.print(inData[i]); 
          }
          Serial.println('\n');
+      }
+      
+      else if(aChar == ' '){  // end of a int
+
         // parse(varCt);
          varCt++;
       }
