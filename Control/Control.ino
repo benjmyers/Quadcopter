@@ -5,6 +5,7 @@
 
 int nunchuckData[5];
 boolean radioConfigured;
+int sendCt = 0;
 
 void setup()
 {
@@ -21,8 +22,11 @@ void setup()
 void loop()
 { 
   readNunchuck();  // This will put all the nunchuck values into nunchuckData[]
-  sendData();
-
+  if(sendCt % 50 == 0){
+    sendData();
+    sendCt = 0;
+  }
+  sendCt++;
 }
 
 
