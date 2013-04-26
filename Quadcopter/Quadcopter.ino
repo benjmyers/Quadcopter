@@ -3,23 +3,44 @@
 // -------------------------------------
 // ---- LCD Display --------------------
 // -------------------------------------
-/*#include <LiquidCrystal.h>
+#include <LiquidCrystal.h>
  const int numRows = 2;
  const int numCols = 16;
- LiquidCrystal lcd(12,11,5,4,3,2);*/
+ LiquidCrystal lcd(12,11,5,4,3,2);
 
 // -------------------------------------
 // ---- Motors -------------------------
 // -------------------------------------
-Servo motor_1, motor_2;
+#include <Servo.h> 
+Servo motor_1;
+Servo motor_2;
 int speed_1, speed_2;
 const int switch_1 = 6;
 const int switch_2 = 5;
 const int motor_1_pin = 9;
 const int motor_2_pin = 10;
-boolean calibrated = false;
+boolean calibrate = false;
 
-
+  // -------------------------------------
+  // ---- Gyro & Accel--------------------
+  // -------------------------------------
+  // Arduino Wire library is required if I2Cdev I2CDEV_ARDUINO_WIRE implementation
+  // is used in I2Cdev.h
+  #include "Wire.h"
+  
+  // I2Cdev and MPU6050 must be installed as libraries, or else the .cpp/.h files
+  // for both classes must be in the include path of your project
+  #include "I2Cdev.h"
+  #include "MPU6050.h"
+  
+  // class default I2C address is 0x68
+  // specific I2C addresses may be passed as a parameter here
+  // AD0 low = 0x68 (default for InvenSense evaluation board)
+  // AD0 high = 0x69
+  MPU6050 accelgyro;
+  
+  int16_t ax, ay, az;
+  int16_t gx, gy, gz;
 int nunchuckData[5];
 
 void setup()
@@ -46,27 +67,30 @@ void loop()
 { 
 
   // ------ Calibrate Motors ------
-  if(!calibrated){
-    calibrate();
+  if(!calibrate){
+    calibrateMotors();
   }
   // ----- Control Flight ----
   else{
     // Get data from Wiimote
-    parseXbeeData();   
-    printInput();
-    
+    //parseXbeeData();   
+    //printInput();
+     if(digitalRead(switch_1)!=0){
+      modSpeed();  
+    }
+    else{
+       motor_1.write(90);
+      motor_2.write(90); 
+    }
     // Get motion from Accel and Gyro
     getMotion();
-    printMotion();
+    //printMotion();
   
     // Analyse Data
     assess();
-    Serial.print("S1: ");Serial.print(speed_1);
-    Serial.print(" S2: ");Serial.println(speed_2);
+
     
-    if(digitalRead(switch_1)!=0){
-      modSpeed();  
-    }
+
   }
 
 
@@ -74,45 +98,57 @@ void loop()
 void assess(){
   // Motor One Lower
   if(ay > 1000){
-    speed_1 += 5;
-    speed_2 -= 5;
+    if(speed_1 < 175){
+        speed_1 += 1;
+    }
+    if(speed_2 > 95){
+      speed_2 -= 1;
+    }
   }
   // Motor Two Lower
   else if (ay < -1000){
-    speed_1 -= 5;
-    speed_2 += 5;
-  }  
+    if(speed_1 > 95){
+      speed_1 -= 1;
+    }
+    if(speed_2 < 175){
+      speed_2 += 1;
+    }  
+} 
 
 }
 
-void calibrate(){
+void calibrateMotors(){
+  Serial.println("Calibrating...");
   // THROTTLE HIGH
   if(digitalRead(switch_1)!=0){
-    servo_1.write(180);
-    servo_2.write(180);
+    motor_1.write(180);
+    motor_2.write(180);
   }
   // THROTTLE LOW
   else{
-    servo_1.write(90);
-    servo_2.write(90);
+    motor_1.write(90);
+    motor_2.write(90);
     calibrate = true;
+
+    Serial.println("Calibrated");
   }
   
   delay(15);  
 
 }
 void modSpeed(){
-
-  for(int i=0; i < 5; i++)  // goes from 0 degrees to 180 degrees 
-  {                                  // in steps of 1 degree 
-    servo_1.write(speed_1+i);              // tell servo to go to position in variable 'pos' 
-    servo_2.write(speed_2+i); 
-    delay(15);                       // waits 15ms for the servo to reach the position 
+    Serial.print("S1: ");Serial.print(speed_1);
+    Serial.print(" S2: ");Serial.println(speed_2);
+  for(int i=1; i <= 5; i++)                  // goes from 0 degrees to 180 degrees 
+  {                                         // in steps of 1 degree 
+    motor_1.write(speed_1+i);              // tell servo to go to position in variable 'pos' 
+    motor_2.write(speed_2+i); 
+    delay(15);                           // waits 15ms for the servo to reach the position 
   } 
-  for(int i=5; i >= 0; i--)     // goes from 180 degrees to 0 degrees 
+  for(int i=1; i <= 5; i++)             // goes from 180 degrees to 0 degrees 
   {                                
-    servo_1.write(speed_1-i);              // tell servo to go to position in variable 'pos' 
-    servo_2.write(speed_2-i); 
-    delay(15);                       // waits 15ms for the servo to reach the position 
+    motor_1.write(speed_1-i);              // tell servo to go to position in variable 'pos' 
+    motor_2.write(speed_2-i); 
+    delay(15);                         // waits 15ms for the servo to reach the position 
   } 
 }
