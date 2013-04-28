@@ -6,14 +6,14 @@ String yPlace, zPlace, zbPlace, cPlace;
 // Variables for nunchuck values
 int xVal, yVal, zVal, zBval, cBval;
 
-String inData[5];
+String inData[4];
 byte index = 0;
 int input = 0;
 
 
 
 void cleary(){
-   for(int i=0;i<5;i++){
+   for(int i=0;i<4;i++){
       inData[i] = "";
    } 
 }
@@ -51,8 +51,7 @@ void printInput() {
    lcd.print(inData[2]);
    lcd.setCursor(3,1);
    lcd.print(inData[3]);
-   lcd.setCursor(8,1);
-   lcd.print(inData[4]);
+   
    
    delay(25);
  

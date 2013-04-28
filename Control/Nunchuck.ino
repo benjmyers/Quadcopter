@@ -13,16 +13,15 @@ void readNunchuck(){
     offsetX = 127 - nunchuckGetValue(wii_accelX);
     offsetY = 127 - nunchuckGetValue(wii_accelY);
   }
-  int xAccel = nunchuckGetValue(wii_accelX);
-  printAccel(xAccel,offsetX,0);
-  int yAccel = nunchuckGetValue(wii_accelY);
-  printAccel(yAccel,offsetY,1);
-  int zAccel = nunchuckGetValue(wii_accelZ);
-  printAccel(zAccel,offsetZ,2);
+  int xAccel = nunchuckGetValue(wii_joyX);
+  printJoy(xAccel,0);
+  int yAccel = nunchuckGetValue(wii_joyY);
+  printJoy(yAccel,1);
+  
   int zButton = nunchuckGetValue(wii_btnZ);
-  printButton(zButton,3);
+  printButton(zButton,2);
   int cButton = nunchuckGetValue(wii_btnC); 
-  printButton(cButton,4);
+  printButton(cButton,3);
 }
 
 //------------------------------------------------------------
@@ -57,7 +56,7 @@ void printAnalogButton(int pinNo){
   Serial.print(value,DEC);
   Serial.print(",");
 }
-void printJoy(int value)
+void printJoy(int value, int index)
 {
   Serial.print(adjReading(value,0, 255, 0));
   Serial.print(",");

@@ -7,7 +7,7 @@
 void sendData(){
   /* Data format:
   <xAccel> <yAccel> <zAccel> <zButton> <cButton> \n */
-  for(int i=0;i<5;i++){
+  for(int i=0;i<4;i++){
     Serial.print(nunchuckData[i]); 
     Serial.print(" ");
   }

@@ -3,7 +3,7 @@
 #include <Wire.h>
 #include "Nunchuck.h"
 
-int nunchuckData[5];
+int nunchuckData[4];
 boolean radioConfigured;
 int sendCt = 0;
 
