@@ -7,6 +7,10 @@
   void getMotion(){
    // read raw accel/gyro measurements from device
    accelgyro.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
+   dx = last_ax - ax;
+   dy = last_ay - ay;
+   last_ax = ax;
+   last_ay = ay;
   }
   
   void printMotion(){

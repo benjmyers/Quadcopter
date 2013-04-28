@@ -22,6 +22,7 @@ void readNunchuck(){
   printButton(zButton,2);
   int cButton = nunchuckGetValue(wii_btnC); 
   printButton(cButton,3);
+  Serial.println('\n');
 }
 
 //------------------------------------------------------------
@@ -38,31 +39,18 @@ void printAccel(int value, int offset, int index)
 void printButton(int value, int index)
 {
   if ( value != 0){
-    value = 127;
+    value = 1;
   }
   nunchuckData[index] = value;
-/*  Serial.print(value,DEC);
-  Serial.print(", ");*/
-}
-void printAnalogButton(int pinNo){
-  int value = digitalRead(pinNo);
-  delay(10);
-  if ( value == 0){
-    value = 127;
-  }
-  else{
-   value = 0; 
-  }
   Serial.print(value,DEC);
-  Serial.print(",");
+  Serial.print(" ");
 }
+
 void printJoy(int value, int index)
 {
   Serial.print(adjReading(value,0, 255, 0));
-  Serial.print(",");
+  Serial.print(" ");
 }
-
-
 
 int adjReading( int value, int min, int max, int offset)
 {
