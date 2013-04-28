@@ -52,7 +52,9 @@ void setup()
   accelgyro.initialize(); // Initialize gyro/accel
   Serial.println("Testing device connections...");
   Serial.println(accelgyro.testConnection() ? "MPU6050 connection successful" : "MPU6050 connection failed");
-
+  //set up lcd
+  lcd.begin(16,2);
+  
   // Set up the motors
   pinMode(switch_1, INPUT);
   pinMode(switch_2, INPUT);
@@ -65,7 +67,7 @@ void setup()
 
 void loop()
 { 
-
+  
   // ------ Calibrate Motors ------
   if(!calibrate){
     calibrateMotors();
@@ -73,8 +75,8 @@ void loop()
   // ----- Control Flight ----
   else{
     // Get data from Wiimote
-    //parseXbeeData();   
-    //printInput();
+    parseXbeeData();   
+    printInput();
      if(digitalRead(switch_1)!=0){
       modSpeed();  
     }
