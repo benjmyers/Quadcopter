@@ -22,7 +22,7 @@ void setup()
 void loop()
 { 
   readNunchuck();  // This will put all the nunchuck values into nunchuckData[]
-  if(sendCt % 50 == 0){
+  if(sendCt % 25 == 0){
     sendData();
     sendCt = 0;
   }

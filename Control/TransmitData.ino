@@ -5,12 +5,18 @@
  */
 
 void sendData(){
-  /* Data format:
-  <xAccel> <yAccel> <zAccel> <zButton> <cButton> \n */
-  for(int i=0;i<4;i++){
-    Serial.print(nunchuckData[i]); 
-    Serial.print(" ");
-  }
+  Serial.print(disarmButton);
+  Serial.print(" ");
+  Serial.print(armButton);
+  Serial.print(" ");
+  Serial.print(yawControl);
+  Serial.print(" ");
+  Serial.print(throttleControl);
+  Serial.print(" ");
+  Serial.print(rollControl);
+  Serial.print(" ");
+  Serial.print(pitchControl); 
+  //Serial.print(" ");
   Serial.print("\n");
 }
 
