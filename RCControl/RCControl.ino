@@ -30,13 +30,10 @@ void loop(){
   // Get data from Wiimote
   parseXbeeData(); 
   printData();
- // if(throttleControl != 0){
     if(armButton){
-      //Serial.println("arm");
       arm();
     }
     else if(disarmButton){
-      //Serial.println("Disarm");
       disarm(); 
     }
     else{
@@ -44,7 +41,6 @@ void loop(){
       dispatch(throttleControl, rollControl, pitchControl, yawControl);
   
     } 
- // }
 
 }
 

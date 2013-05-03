@@ -15,9 +15,9 @@ void parseXbeeData(){
     if(input == '\n'){
       st = "";
       index = 0;
-      disarmButton = inData[0].toInt();
-      armButton = inData[1].toInt();
-      yawControl = inData[2].toInt();
+      disarmButton =     inData[0].toInt();
+      armButton =       inData[1].toInt();
+      yawControl =       inData[2].toInt();
       throttleControl = inData[3].toInt();
       rollControl = inData[4].toInt();
       pitchControl = inData[5].toInt();
